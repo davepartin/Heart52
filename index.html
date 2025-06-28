@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Memory Verses</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: rgba(255,255,255,0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Main content area */
+        .content {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Home page styles */
+        .verse-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .verse-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .verse-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .verse-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .verse-reference {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .verse-preview {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Verse page styles */
+        .verse-page {
+            text-align: center;
+        }
+
+        .verse-display {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .verse-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .verse-ref {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* Audio controls */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .audio-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .audio-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .audio-btn.active {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+
+        /* Memory training controls */
+        .training-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .level-btn {
+            padding: 8px 16px;
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .level-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .level-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Memory training display */
+        .memory-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .blank {
+            background: #f0f0f0;
+            color: #f0f0f0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 2px;
+            border: 2px dashed #ccc;
+            user-select: none;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .verse-text {
+                font-size: 1.1rem;
+            }
+
+            .audio-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .audio-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .nav {
+                justify-content: center;
+            }
+
+            .training-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .level-btn {
+                width: 100%;
+                max-width: 150px;
+            }
+        }
+
+        /* Hidden class for view switching */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading animation */
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: '....'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Bible Memory Verses</h1>
+            <p>Memorize Scripture with interactive training</p>
+        </header>
+
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showHome()">Home</button>
+        </nav>
+
+        <main class="content">
+            <!-- Home View -->
+            <div id="home-view">
+                <div class="verse-list" id="verse-list">
+                    <!-- Verse items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Verse View -->
+            <div id="verse-view" class="hidden">
+                <div class="verse-page">
+                    <div class="verse-display">
+                        <div class="verse-text" id="current-verse-text"></div>
+                        <div class="verse-ref" id="current-verse-ref"></div>
+                    </div>
+
+                    <div class="audio-controls">
+                        <button class="audio-btn" id="play-once-btn" onclick="playOnce()">
+                            🔊 Play Once
+                        </button>
+                        <button class="audio-btn" id="loop-btn" onclick="toggleLoop()">
+                            🔁 Loop
+                        </button>
+                        <button class="audio-btn" id="stop-btn" onclick="stopAudio()">
+                            ⏹️ Stop
+                        </button>
+                    </div>
+
+                    <div class="training-controls">
+                        <button class="level-btn active" onclick="setMemoryLevel(0)">Full Text</button>
+                        <button class="level-btn" onclick="setMemoryLevel(1)">Level 1 (10%)</button>
+                        <button class="level-btn" onclick="setMemoryLevel(2)">Level 2 (25%)</button>
+                        <button class="level-btn" onclick="setMemoryLevel(3)">Level 3 (50%)</button>
+                    </div>
+
+                    <div class="verse-display">
+                        <div class="memory-text" id="memory-text"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Sample verses data - Replace with your 50 verses
+        const verses = [
+            {
+                reference: "John 1:14",
+                text: "And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth."
+            },
+            {
+                reference: "Galatians 5:16",
+                text: "But I say, walk by the Spirit, and you will not gratify the desires of the flesh."
+            },
+            {
+                reference: "Joshua 1:8",
+                text: "This Book of the Law shall not depart from your mouth, but you shall meditate on it day and night, so that you may be careful to do according to all that is written in it. For then you will make your way prosperous, and then you will have good success."
+            },
+            {
+                reference: "Philippians 4:13",
+                text: "I can do all things through Christ who strengthens me."
+            },
+            {
+                reference: "Romans 8:28",
+                text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose."
+            },
+            {
+                reference: "Jeremiah 29:11",
+                text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, to give you hope and a future."
+            },
+            {
+                reference: "Psalm 23:1",
+                text: "The Lord is my shepherd, I lack nothing."
+            },
+            {
+                reference: "John 3:16",
+                text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+            },
+            {
+                reference: "Proverbs 3:5-6",
+                text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."
+            },
+            {
+                reference: "Matthew 6:33",
+                text: "But seek first his kingdom and his righteousness, and all these things will be given to you as well."
+            },
+            // Add more verses to reach 50 total
+            {
+                reference: "Isaiah 40:31",
+                text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
+            },
+            {
+                reference: "2 Timothy 1:7",
+                text: "For God has not given us a spirit of fear, but of power, of love and of sound mind."
+            },
+            {
+                reference: "Ephesians 2:8-9",
+                text: "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God—not by works, so that no one can boast."
+            },
+            {
+                reference: "1 Corinthians 10:13",
+                text: "No temptation has overtaken you except what is common to mankind. And God is faithful; he will not let you be tempted beyond what you can bear."
+            },
+            {
+                reference: "Romans 12:2",
+                text: "Do not conform to the pattern of this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what God's will is—his good, pleasing and perfect will."
+            }
+            // Continue adding until you have 50 verses total
+        ];
+
+        // Global variables
+        let currentVerse = null;
+        let currentMemoryLevel = 0;
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let isLooping = false;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            populateVerseList();
+            showHome();
+        }
+
+        // Populate the home page verse list
+        function populateVerseList() {
+            const verseList = document.getElementById('verse-list');
+            verseList.innerHTML = '';
+
+            verses.forEach((verse, index) => {
+                const verseItem = document.createElement('div');
+                verseItem.className = 'verse-item';
+                verseItem.onclick = () => showVerse(index);
+
+                const firstThreeWords = verse.text.split(' ').slice(0, 3).join(' ') + '...';
+
+                verseItem.innerHTML = `
+                    <div class="verse-number">Verse ${index + 1}</div>
+                    <div class="verse-reference">${verse.reference}</div>
+                    <div class="verse-preview">${firstThreeWords}</div>
+                `;
+
+                verseList.appendChild(verseItem);
+            });
+        }
+
+        // Navigation functions
+        function showHome() {
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('verse-view').classList.add('hidden');
+            updateNavigation('home');
+            stopAudio();
+        }
+
+        function showVerse(index) {
+            currentVerse = verses[index];
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('verse-view').classList.remove('hidden');
+            updateNavigation('verse');
+            displayVerse();
+            updateMemoryText();
+        }
+
+        function updateNavigation(activeView) {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Update navigation based on current view
+            if (activeView === 'home') {
+                navButtons[0].classList.add('active');
+            }
+        }
+
+        // Display current verse
+        function displayVerse() {
+            if (!currentVerse) return;
+
+            document.getElementById('current-verse-text').textContent = currentVerse.text;
+            document.getElementById('current-verse-ref').textContent = currentVerse.reference;
+        }
+
+        // Audio functions
+        function playOnce() {
+            if (!currentVerse) return;
+
+            stopAudio();
+            currentUtterance = new SpeechSynthesisUtterance(currentVerse.text);
+            currentUtterance.rate = 0.8;
+            currentUtterance.pitch = 1;
+            currentUtterance.volume = 1;
+
+            updateAudioButtons('playing');
+            
+            currentUtterance.onend = () => {
+                updateAudioButtons('stopped');
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function toggleLoop() {
+            if (isLooping) {
+                stopAudio();
+            } else {
+                startLoop();
+            }
+        }
+
+        function startLoop() {
+            if (!currentVerse) return;
+
+            isLooping = true;
+            updateAudioButtons('looping');
+            playLoop();
+        }
+
+        function playLoop() {
+            if (!isLooping) return;
+
+            currentUtterance = new SpeechSynthesisUtterance(currentVerse.text);
+            currentUtterance.rate = 0.8;
+            currentUtterance.pitch = 1;
+            currentUtterance.volume = 1;
+
+            currentUtterance.onend = () => {
+                if (isLooping) {
+                    setTimeout(playLoop, 1000); // 1 second pause between loops
+                }
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopAudio() {
+            speechSynthesis.cancel();
+            isLooping = false;
+            currentUtterance = null;
+            updateAudioButtons('stopped');
+        }
+
+        function updateAudioButtons(state) {
+            const playBtn = document.getElementById('play-once-btn');
+            const loopBtn = document.getElementById('loop-btn');
+            const stopBtn = document.getElementById('stop-btn');
+
+            // Reset all buttons
+            playBtn.classList.remove('active');
+            loopBtn.classList.remove('active');
+            playBtn.disabled = false;
+            loopBtn.disabled = false;
+            stopBtn.disabled = false;
+
+            switch(state) {
+                case 'playing':
+                    playBtn.classList.add('active');
+                    playBtn.disabled = true;
+                    break;
+                case 'looping':
+                    loopBtn.classList.add('active');
+                    loopBtn.textContent = '⏸️ Stop Loop';
+                    playBtn.disabled = true;
+                    break;
+                case 'stopped':
+                    loopBtn.textContent = '🔁 Loop';
+                    break;
+            }
+        }
+
+        // Memory training functions
+        function setMemoryLevel(level) {
+            currentMemoryLevel = level;
+            updateMemoryLevelButtons();
+            updateMemoryText();
+        }
+
+        function updateMemoryLevelButtons() {
+            const levelButtons = document.querySelectorAll('.level-btn');
+            levelButtons.forEach((btn, index) => {
+                btn.classList.toggle('active', index === currentMemoryLevel);
+            });
+        }
+
+        function updateMemoryText() {
+            if (!currentVerse) return;
+
+            const memoryTextElement = document.getElementById('memory-text');
+            let displayText = currentVerse.text;
+
+            if (currentMemoryLevel > 0) {
+                displayText = createMemoryText(currentVerse.text, currentMemoryLevel);
+            }
+
+            memoryTextElement.innerHTML = displayText;
+        }
+
+        function createMemoryText(text, level) {
+            const words = text.split(' ');
+            let removalPercentage;
+
+            switch(level) {
+                case 1: removalPercentage = 0.1; break;  // 10%
+                case 2: removalPercentage = 0.25; break; // 25%
+                case 3: removalPercentage = 0.5; break;  // 50%
+                default: return text;
+            }
+
+            const wordsToRemove = Math.floor(words.length * removalPercentage);
+            const indicesToRemove = new Set();
+
+            // Randomly select indices to remove
+            while (indicesToRemove.size < wordsToRemove) {
+                const randomIndex = Math.floor(Math.random() * words.length);
+                indicesToRemove.add(randomIndex);
+            }
+
+            // Create the display text with blanks
+            return words.map((word, index) => {
+                if (indicesToRemove.has(index)) {
+                    return `<span class="blank">${'_'.repeat(Math.max(3, word.length))}</span>`;
+                }
+                return word;
+            }).join(' ');
+        }
+
+        // Utility functions
+        function getFirstThreeWords(text) {
+            return text.split(' ').slice(0, 3).join(' ') + '...';
+        }
+
+        // Handle browser back button
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.view === 'verse') {
+                // Handle back to verse view if needed
+            } else {
+                showHome();
+            }
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (document.getElementById('verse-view').classList.contains('hidden')) return;
+
+            switch(event.key) {
+                case ' ':
+                    event.preventDefault();
+                    playOnce();
+                    break;
+                case 'l':
+                    event.preventDefault();
+                    toggleLoop();
+                    break;
+                case 's':
+                    event.preventDefault();
+                    stopAudio();
+                    break;
+                case '1':
+                    event.preventDefault();
+                    setMemoryLevel(1);
+                    break;
+                case '2':
+                    event.preventDefault();
+                    setMemoryLevel(2);
+                    break;
+                case '3':
+                    event.preventDefault();
+                    setMemoryLevel(3);
+                    break;
+                case '0':
+                    event.preventDefault();
+                    setMemoryLevel(0);
+                    break;
+                case 'Escape':
+                    showHome();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
