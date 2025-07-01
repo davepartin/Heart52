@@ -411,63 +411,69 @@
             user-select: none;
         }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
+     /* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
 
-            .header h1 {
-                font-size: 2rem;
-            }
+    .header h1 {
+        font-size: 2rem;
+    }
 
-            .content {
-                padding: 20px;
-            }
+    .content {
+        padding: 20px;
+    }
 
-            .verse-text {
-                font-size: 1.1rem;
-            }
+    .verse-text {
+        font-size: 1.1rem;
+    }
 
-            .audio-controls {
-                flex-direction: column;
-                align-items: center;
-            }
+    .audio-controls {
+        flex-direction: row;
+        gap: 5px;
+        flex-wrap: nowrap;
+    }
 
-            .audio-btn {
-                width: 100%;
-                max-width: 200px;
-            }
+    .audio-btn {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.85rem;
+        padding: 8px 4px;
+    }
 
-            .nav {
-                justify-content: center;
-            }
+    .nav {
+        justify-content: center;
+    }
 
-            .training-controls {
-                flex-direction: column;
-                align-items: center;
-            }
+    .training-controls {
+        flex-direction: row;
+        gap: 3px;
+        flex-wrap: nowrap;
+    }
 
-            .level-btn {
-                width: 100%;
-                max-width: 150px;
-            }
+    .level-btn {
+        flex: 1;
+        min-width: 0;
+        font-size: 0.75rem;
+        padding: 6px 2px;
+    }
 
-            .jump-buttons {
-                gap: 8px;
-            }
+    .jump-buttons {
+        gap: 8px;
+    }
 
-            .jump-btn {
-                font-size: 0.8rem;
-                padding: 7px 14px;
-                min-width: 70px;
-            }
+    .jump-btn {
+        font-size: 0.8rem;
+        padding: 7px 14px;
+        min-width: 70px;
+    }
 
-            .memory-instruction {
-                font-size: 0.9rem;
-                margin: 15px 0 12px 0;
-                padding: 0 10px;
-            }
+    .memory-instruction {
+        font-size: 0.9rem;
+        margin: 15px 0 12px 0;
+        padding: 0 10px;
+    }
         }
 
         /* Hidden class for view switching */
